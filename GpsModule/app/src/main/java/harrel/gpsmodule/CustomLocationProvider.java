@@ -13,6 +13,8 @@ import android.widget.Toast;
 import com.google.android.gms.maps.LocationSource;
 import com.google.android.gms.maps.model.LatLng;
 
+import java.util.ArrayList;
+
 /**
  * Created by Harrel on 01.04.2017.
  */
@@ -24,11 +26,20 @@ public class CustomLocationProvider implements LocationSource, LocationListener
     private Handler handler;
     private Context context;
 
+    /*Example data sets*/
     private LatLng[] dataSet1 = new LatLng[50];
     private LatLng[] dataSet2 = new LatLng[50];
+
     private LatLng firstPoint;
-    public Location cross;
-    public double radius;
+    private BorderCross nearestCross;
+    private String currentCountry;
+    private BorderCross[] currentCountryCrosses;
+
+    /*Provide theses 2 arrays and then call 'activate' method*/
+    public BorderCross[] allCrosses;
+    public LatLng[] dataSet;
+
+
 
 
     public CustomLocationProvider(Context context, Handler handler){
@@ -37,10 +48,8 @@ public class CustomLocationProvider implements LocationSource, LocationListener
         this.handler = handler;
         this.context = context;
         firstPoint = null;
-        cross = new Location("cross");
-        cross.setLatitude(51.666874);
-        cross.setLongitude(14.752655);
-        radius = 100;
+
+        /*Initialize 2 example data sets*/
         for(int i = 0; i < dataSet1.length; i++){
             dataSet1[i] = new LatLng(51.666874, 14.762655 - i * 0.0005);
         }
@@ -67,13 +76,13 @@ public class CustomLocationProvider implements LocationSource, LocationListener
         Thread t = new Thread(new Runnable() {
             @Override
             public void run() {
-                for(LatLng pos : dataSet2){
+                for(LatLng pos : dataSet){
                     try{
                         Location loc = new Location("test");
                         loc.setLatitude(pos.latitude);
                         loc.setLongitude(pos.longitude);
                         onLocationChanged(loc);
-                        Thread.sleep(500);
+                        //Thread.sleep(500);
                     }catch(Exception e){
                         e.printStackTrace();
                     }
@@ -86,10 +95,14 @@ public class CustomLocationProvider implements LocationSource, LocationListener
     @Override
     public void activate(OnLocationChangedListener listener){
         this.listener = listener;
+
+        /*Requests location updates from real GPS provider*/
 //        LocationProvider gpsProvider = locationManager.getProvider(LocationManager.GPS_PROVIDER);
 //        if(gpsProvider != null) {
 //            locationManager.requestLocationUpdates(gpsProvider.getName(), 500, 0, this);
 //        }
+
+        /*Requests location updates from previously prepared data set of LatLngs*/
         getUpdatesfromTestData();
     }
 
@@ -101,23 +114,35 @@ public class CustomLocationProvider implements LocationSource, LocationListener
     @Override
     public void onLocationChanged(Location location){
 
-        if(firstPoint == null && location.distanceTo(cross) <= radius){
-            firstPoint = new LatLng(location.getLatitude(), location.getLongitude());
-            makeToastOnUI("Entered the radius!");
-        }
-        else if(firstPoint != null && location.distanceTo(cross) > radius){
-            Location tmp = new Location("tmp");
-            tmp.setLatitude(firstPoint.latitude);
-            tmp.setLongitude(firstPoint.longitude);
+        if(nearestCross == null) {
+            for(BorderCross cross : currentCountryCrosses) {
+                if(firstPoint == null && location.distanceTo(cross.getLocation()) <= cross.radius){
+                    firstPoint = new LatLng(location.getLatitude(), location.getLongitude());
+                    nearestCross = cross;
+                    //makeToastOnUI("Entered the radius!");
+                    break;
+                }
 
-            if(location.distanceTo(tmp) > radius){
-                makeToastOnUI("Escaped the radius and crossed the border!");
             }
-            else{
-                makeToastOnUI("Escaped the radius and did not cross the border!");
-            }
-            firstPoint = null;
         }
+        else {
+                if(firstPoint != null && location.distanceTo(nearestCross.getLocation()) > nearestCross.radius){
+                Location tmp = new Location("tmp");
+                tmp.setLatitude(firstPoint.latitude);
+                tmp.setLongitude(firstPoint.longitude);
+
+                if(location.distanceTo(tmp) > nearestCross.radius){
+                    this.setCurrentCountry(nearestCross.country1 == this.getCurrentCountry() ? nearestCross.country2 : nearestCross.country1);
+                    //makeToastOnUI("Escaped the radius and crossed the border!");
+                }
+                else{
+                    //makeToastOnUI("Escaped the radius and did not cross the border!");
+                }
+                nearestCross = null;
+                firstPoint = null;
+            }
+        }
+
 
          /* Push location updates to the registered listener..
             (this ensures that my-location layer will set the blue dot at the new/received location) */
@@ -145,5 +170,20 @@ public class CustomLocationProvider implements LocationSource, LocationListener
 
     }
 
+    /*Getter and setters*/
+    public String getCurrentCountry() {
+        return currentCountry;
+    }
+
+    public void setCurrentCountry(String currentCountry) {
+        ArrayList<BorderCross> temp = new ArrayList<>();
+        for(BorderCross crs : allCrosses)
+        {
+            if(crs.containsCountry(currentCountry))
+                temp.add(crs);
+        }
+        currentCountryCrosses = (BorderCross[])temp.toArray();
+        this.currentCountry = currentCountry;
+    }
 
 }
