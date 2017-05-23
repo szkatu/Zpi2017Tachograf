@@ -38,7 +38,7 @@
             style="@android:style/Widget.ProgressBar.Horizontal"
             android:layout_width="200dp"
             android:layout_height="wrap_content"
-            android:max="270"
+            android:max="16200"
             android:id="@+id/czas_prowadzenia"
             android:layout_alignParentEnd="true"/>
 
@@ -70,7 +70,7 @@
             style="@android:style/Widget.ProgressBar.Horizontal"
             android:layout_width="200dp"
             android:layout_height="wrap_content"
-            android:max="540"
+            android:max="32400"
             android:id="@+id/czas_prowadzenia_dzienny"
             android:layout_alignParentEnd="true"/>
         <TextView
@@ -97,7 +97,7 @@
             style="@android:style/Widget.ProgressBar.Horizontal"
             android:layout_width="200dp"
             android:layout_height="wrap_content"
-            android:max="3360"
+            android:max="201600"
             android:id="@+id/czas_prowadzenia_tygodniowy"
             android:layout_alignParentEnd="true"/>
         <TextView
@@ -124,7 +124,7 @@
             style="@android:style/Widget.ProgressBar.Horizontal"
             android:layout_width="200dp"
             android:layout_height="wrap_content"
-            android:max="5400"
+            android:max="324000"
             android:id="@+id/czas_prowadzenia_2tygodniowy"
             android:layout_alignParentEnd="true"/>
         <TextView
@@ -161,7 +161,7 @@
             style="@android:style/Widget.ProgressBar.Horizontal"
             android:layout_width="200dp"
             android:layout_height="wrap_content"
-            android:max="45"
+            android:max="2700"
             android:id="@+id/czas_przerwy"
             android:layout_alignParentEnd="true"/>
 
@@ -199,7 +199,7 @@
             style="@android:style/Widget.ProgressBar.Horizontal"
             android:layout_width="200dp"
             android:layout_height="wrap_content"
-            android:max="660"
+            android:max="39600"
             android:id="@+id/czas_odpoczynku"
             android:layout_alignParentEnd="true" />
 
@@ -227,7 +227,7 @@
             style="@android:style/Widget.ProgressBar.Horizontal"
             android:layout_width="200dp"
             android:layout_height="wrap_content"
-            android:max="660"
+            android:max="39600"
             android:id="@+id/czas_odpoczynku_tygodniowy"
             android:layout_alignParentEnd="true" />
 
