@@ -4,10 +4,10 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
 
-    <color name="main_background1">#F7EF6A</color>
+    <color name="main_background1">#E9E9E9</color>
     <color name="main_background2">#F4DECB</color>
-    <color name="main_button1">#93C178</color>
-    <color name="main_button2">#465C8B</color>
+    <color name="main_button1">#99D3DF</color>
+    <color name="main_button2">#88BBD6</color>
     <color name="main_button3">#94618E</color>
     <color name="theme">#49274A</color>
     <color name="main_buttonT1">#FFFFFF</color>

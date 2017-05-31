@@ -15,6 +15,12 @@ public class Trasa extends AppCompatActivity {
 
     private TabLayout tabLayout;
     private ViewPager viewPager;
+    private int[] tabIcons = {
+            R.mipmap.ic_local_shipping_white_24dp,
+            R.mipmap.ic_schedule_white_24dp,
+            R.mipmap.ic_local_parking_white_24dp,
+            R.mipmap.ic_map_white_24dp
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,14 +34,22 @@ public class Trasa extends AppCompatActivity {
 
         tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(viewPager);
+        setupTabIcons();
+    }
+
+    private void setupTabIcons() {
+        tabLayout.getTabAt(0).setIcon(tabIcons[0]);
+        tabLayout.getTabAt(1).setIcon(tabIcons[1]);
+        tabLayout.getTabAt(2).setIcon(tabIcons[2]);
+        tabLayout.getTabAt(3).setIcon(tabIcons[3]);
     }
 
     private void setupViewPager(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
         adapter.addFragment(new Strona(), "Main");
-        adapter.addFragment(new Strona(), "Aktywności");
-        adapter.addFragment(new Strona(), "Postój");
-        adapter.addFragment(new Strona(), "Mapa");
+        adapter.addFragment(new Temp(), "Aktywności");
+        adapter.addFragment(new Postoje(), "Postój");
+        adapter.addFragment(new Temp(), "Mapa");
         viewPager.setAdapter(adapter);
     }
 
@@ -64,7 +78,9 @@ public class Trasa extends AppCompatActivity {
 
         @Override
         public CharSequence getPageTitle(int position) {
-            return mFragmentTitleList.get(position);
+
+            //return mFragmentTitleList.get(position);
+            return null;
         }
     }
 }

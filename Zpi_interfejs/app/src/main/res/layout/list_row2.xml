@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:padding="5dp">
+
+    <ImageView
+        android:id="@+id/ikona_list2"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:src="@mipmap/ic_launcher"
+        android:layout_marginTop="6dp"
+        />
+
+    <TextView
+        android:id="@+id/title_list2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/ikona_list2"
+        android:layout_toRightOf="@+id/ikona_list2"
+        android:text="Nazwa"
+        android:textColor="#040404"
+        android:textSize="18dp"
+        android:textStyle="bold"/>
+
+    <TextView
+        android:id="@+id/type_list2"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/title_list2"
+        android:textColor="#343434"
+        android:textSize="13dp"
+        android:layout_marginTop="1dp"
+        android:layout_toRightOf="@+id/ikona_list2"
+        android:text="TYP " />
+
+    <TextView
+        android:id="@+id/distance2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignTop="@id/title_list2"
+        android:gravity="right"
+        android:text="200m"
+        android:layout_marginRight="5dp"
+        android:textSize="13dip"
+        android:textColor="#040404"/>
+
+</RelativeLayout>

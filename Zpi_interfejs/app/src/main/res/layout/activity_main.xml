@@ -24,11 +24,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:layout_centerVertical="true"
+        android:layout_below="@+id/tytul"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_marginLeft="40dp"
-        android:layout_marginRight="40dp">
+        android:layout_marginTop="23dp"
+        android:weightSum="1">
 
         <Button
             android:id="@+id/button1"
@@ -56,23 +56,12 @@
 
         <Button
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_marginBottom="15dp"
             android:id="@+id/button3"
             android:text="Ustawienia"
             android:backgroundTint="@color/main_button1"
             android:onClick="uruchom3"
-            android:textColor="@color/main_buttonT1"
-            android:textSize="16sp"
-            android:textStyle="bold"/>
-
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/button4"
-            android:text="Wyloguj się"
-            android:backgroundTint="@color/main_button1"
-            android:onClick="uruchom4"
             android:textColor="@color/main_buttonT1"
             android:textSize="16sp"
             android:textStyle="bold"/>
