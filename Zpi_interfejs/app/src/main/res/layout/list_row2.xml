@@ -47,4 +47,16 @@
         android:textSize="13dip"
         android:textColor="#040404"/>
 
+    <TextView
+        android:id="@+id/time2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignBottom="@id/ikona_list2"
+        android:gravity="right"
+        android:text="200m"
+        android:layout_marginRight="5dp"
+        android:textSize="13dip"
+        android:textColor="#040404"/>
+
 </RelativeLayout>

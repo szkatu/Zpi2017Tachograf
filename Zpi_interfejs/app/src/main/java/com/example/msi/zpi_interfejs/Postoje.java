@@ -33,22 +33,36 @@ public class Postoje extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_postoje, container, false);
-        start();
 
         listView=(ListView)view.findViewById(R.id.listview3);
-
+        list = new ArrayList<>();
         adapter = new CustomPostojeAdapter((Activity)view.getContext(), list);
         listView.setAdapter(adapter);
 
         return view;
     }
 
-    void start()
+    void updatePOIs(ArrayList<PointOfInterest> pois)
     {
-        list = new ArrayList<>();
-        list.add(new MiejscePostojowe("Stacja paliw Orlen", "Stacja paliw", "Sredni", "150m", R.mipmap.gas_station));
-        list.add(new MiejscePostojowe("Motel Rezydent", "Stacja paliw", "Sredni", "500m", R.mipmap.hotel));
-        list.add(new MiejscePostojowe("Parking", "Stacja paliw", "Duży", "600m", R.mipmap.parking));
+        list.clear();
+        for(PointOfInterest p : pois){
+            String type;
+            int icon;
+            if(p.isGasStation) {
+                type = "Stacja Paliw";
+                icon = R.mipmap.gas_station;
+            }
+            else if(p.isHotel) {
+                type = "Hotel";
+                icon = R.mipmap.hotel;
+            }
+            else {
+                type = "Parking";
+                icon = R.mipmap.parking;
+            }
+            list.add(new MiejscePostojowe(p.name, type, p.durationString, p.distanceString, icon));
+        }
+        adapter.notifyDataSetChanged();
     }
 
 }

@@ -47,6 +47,7 @@ public class CustomPostojeAdapter extends BaseAdapter {
         TextView title = (TextView)view.findViewById(R.id.title_list2);
         TextView type = (TextView)view.findViewById(R.id.type_list2);
         TextView distance = (TextView)view.findViewById(R.id.distance2);
+        TextView time = (TextView)view.findViewById(R.id.time2);
 
         MiejscePostojowe element = list.get(position);
 
@@ -56,6 +57,7 @@ public class CustomPostojeAdapter extends BaseAdapter {
         title.setText(element.nazwa);
         type.setText(element.typ);
         distance.setText(element.odleglosc);
+        time.setText(element.czas);
 
         return view;
     }
