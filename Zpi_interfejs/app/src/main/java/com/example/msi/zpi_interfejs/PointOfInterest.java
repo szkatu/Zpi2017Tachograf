@@ -14,6 +14,8 @@ public class PointOfInterest {
     public int duration;
     public String durationString;
     public String distanceString;
+    public String typeString;
+    public int icon;
 
     public boolean isParking;
     public boolean isGasStation;
@@ -26,6 +28,7 @@ public class PointOfInterest {
         duration = 0;
         durationString = new String();
         distanceString = new String();
+        typeString = new String();
     }
 
     public String toString(){

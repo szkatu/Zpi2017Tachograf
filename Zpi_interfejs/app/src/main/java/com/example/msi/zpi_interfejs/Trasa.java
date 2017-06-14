@@ -32,6 +32,9 @@ public class Trasa extends AppCompatActivity {
     private ViewPager viewPager;
 
     private CustomLocationProvider provider;
+
+    //Fragments
+    private Strona mainFragment;
     private MapFragment mapFragment;
     private Postoje poisListFragment;
     private PlaceFinder finder;
@@ -72,8 +75,9 @@ public class Trasa extends AppCompatActivity {
 
                         //Add new POI markers
                         mapFragment.updatePOIs(finder.currentPlaces);
-                        //Update POIs list
+                        //Update POIs lists
                         poisListFragment.updatePOIs(finder.currentPlaces);
+                        mainFragment.updatePOIs(finder.currentPlaces.subList(0, 3));
                         Toast.makeText(getApplicationContext(), "Updated POIs markers", Toast.LENGTH_SHORT).show();
                     }
                 });
@@ -152,7 +156,8 @@ public class Trasa extends AppCompatActivity {
 
     private void setupViewPager(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
-        adapter.addFragment(new Strona(), "Main");
+        mainFragment = new Strona();
+        adapter.addFragment(mainFragment, "Main");
         adapter.addFragment(new Temp(), "Aktywności");
         poisListFragment = new Postoje();
         adapter.addFragment(poisListFragment, "Postój");

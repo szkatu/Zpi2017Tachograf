@@ -11,14 +11,15 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class CustomPostojeAdapter extends BaseAdapter {
 
     Activity activity;
-    ArrayList<MiejscePostojowe> list;
+    List<PointOfInterest> list;
     private static LayoutInflater inflater = null;
 
-    public CustomPostojeAdapter(Activity activity, ArrayList<MiejscePostojowe> list) {
+    public CustomPostojeAdapter(Activity activity, List<PointOfInterest> list) {
         this.activity = activity;
         this.list = list;
         inflater = (LayoutInflater)activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -30,7 +31,7 @@ public class CustomPostojeAdapter extends BaseAdapter {
     }
 
     public Object getItem(int position) {
-        return position;
+        return list.get(position);
     }
 
     public long getItemId(int position) {
@@ -49,15 +50,15 @@ public class CustomPostojeAdapter extends BaseAdapter {
         TextView distance = (TextView)view.findViewById(R.id.distance2);
         TextView time = (TextView)view.findViewById(R.id.time2);
 
-        MiejscePostojowe element = list.get(position);
+        PointOfInterest element = list.get(position);
 
-        if(element.obraz != -1){
-            ikona.setImageResource(element.obraz);
+        if(element.icon != -1){
+            ikona.setImageResource(element.icon);
         }
-        title.setText(element.nazwa);
-        type.setText(element.typ);
-        distance.setText(element.odleglosc);
-        time.setText(element.czas);
+        title.setText(element.name);
+        type.setText(element.typeString);
+        distance.setText(element.distanceString);
+        time.setText(element.durationString);
 
         return view;
     }

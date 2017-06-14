@@ -81,12 +81,21 @@ public class PlaceFinder {
                                 PointOfInterest tmp = new PointOfInterest(pos, name);
                                 JSONArray typesArray = resultArray.getJSONObject(i).getJSONArray("types");
                                 for (int j = 0; j < typesArray.length(); j++) {
-                                    if (typesArray.getString(j).equals("parking"))
+                                    if (typesArray.getString(j).equals("parking")) {
                                         tmp.isParking = true;
-                                    else if (typesArray.getString(j).equals("lodging"))
+                                        tmp.icon = R.mipmap.parking;
+                                        tmp.typeString = "Parking";
+                                    }
+                                    else if (typesArray.getString(j).equals("lodging")) {
                                         tmp.isHotel = true;
-                                    else if (typesArray.getString(j).equals("gas_station"))
+                                        tmp.icon = R.mipmap.hotel;
+                                        tmp.typeString = "Hotel";
+                                    }
+                                    else if (typesArray.getString(j).equals("gas_station")) {
                                         tmp.isGasStation = true;
+                                        tmp.icon = R.mipmap.gas_station;
+                                        tmp.typeString = "Stacja paliw";
+                                    }
                                 }
                                 currentPlaces.add(tmp);
                             }
