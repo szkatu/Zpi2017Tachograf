@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:padding="5dp">
+
+    <TextView
+        android:id="@+id/ikona_list"
+        android:layout_width="30dp"
+        android:layout_height="50dp"
+        android:layout_alignParentLeft="true"
+        android:background="@drawable/blue"
+        android:layout_marginRight="5dp"
+        android:text="J"
+        android:textColor="#FFFFFF"
+        android:textSize="35dp"
+        android:textStyle="bold"
+        android:gravity="center"/>
+
+    <TextView
+        android:id="@+id/title_list"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/ikona_list"
+        android:layout_toRightOf="@+id/ikona_list"
+        android:text="Czas jazdy"
+        android:textColor="#040404"
+        android:textSize="22dp"
+        android:textStyle="bold"/>
+
+    <TextView
+        android:id="@+id/date_list"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/title_list"
+        android:textColor="#343434"
+        android:textSize="13dp"
+        android:layout_marginTop="1dp"
+        android:layout_toRightOf="@+id/ikona_list"
+        android:text="12.02.16 06:31 - 12.02.16 11:20 " />
+
+    <TextView
+        android:id="@+id/duration"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignTop="@id/title_list"
+        android:gravity="right"
+        android:text="4:49"
+        android:layout_marginRight="5dp"
+        android:textSize="15dip"
+        android:textColor="#040404"/>
+
+</RelativeLayout>
