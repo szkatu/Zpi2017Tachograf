@@ -1,13 +1,288 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context="com.example.msi.zpi_interfejs.Temp">
 
     <!-- TODO: Update blank fragment layout -->
     <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/dateTime"
+        android:layout_gravity="end"
+        />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:id="@+id/stan"
+        android:layout_gravity="center"
+        android:textAlignment="center"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Czas prowadzenia"
+        android:layout_gravity="center"
+        android:textAlignment="center"
+        android:textStyle="bold"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Ciągły"/>
+
+        <ProgressBar
+            style="@android:style/Widget.ProgressBar.Horizontal"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:max="270"
+            android:id="@+id/czas_prowadzenia"
+            android:layout_alignParentEnd="true"/>
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/jazda_Text"
+            android:layout_alignLeft="@id/czas_prowadzenia"
+            android:layout_alignBottom="@id/czas_prowadzenia"
+            android:layout_alignRight="@id/czas_prowadzenia"
+            android:layout_alignTop="@id/czas_prowadzenia"
+            android:textAlignment="center"
+            />
+
+
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Dzienny:"/>
+        <ProgressBar
+            style="@android:style/Widget.ProgressBar.Horizontal"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:max="540"
+            android:id="@+id/czas_prowadzenia_dzienny"
+            android:layout_alignParentEnd="true"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/jazda_dzienna_Text"
+            android:layout_alignLeft="@id/czas_prowadzenia_dzienny"
+            android:layout_alignBottom="@id/czas_prowadzenia_dzienny"
+            android:layout_alignRight="@id/czas_prowadzenia_dzienny"
+            android:layout_alignTop="@id/czas_prowadzenia_dzienny"
+            android:textAlignment="center"
+            />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Tygodniowy:"/>
+        <ProgressBar
+            style="@android:style/Widget.ProgressBar.Horizontal"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:max="3360"
+            android:id="@+id/czas_prowadzenia_tygodniowy"
+            android:layout_alignParentEnd="true"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/jazda_tygodniowa_Text"
+            android:layout_alignLeft="@id/czas_prowadzenia_tygodniowy"
+            android:layout_alignBottom="@id/czas_prowadzenia_tygodniowy"
+            android:layout_alignRight="@id/czas_prowadzenia_tygodniowy"
+            android:layout_alignTop="@id/czas_prowadzenia_tygodniowy"
+            android:textAlignment="center"
+            />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="2Tygodniowy:"/>
+        <ProgressBar
+            style="@android:style/Widget.ProgressBar.Horizontal"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:max="5400"
+            android:id="@+id/czas_prowadzenia_2tygodniowy"
+            android:layout_alignParentEnd="true"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/jazda_2tygodniowa_Text"
+            android:layout_alignLeft="@id/czas_prowadzenia_2tygodniowy"
+            android:layout_alignBottom="@id/czas_prowadzenia_2tygodniowy"
+            android:layout_alignRight="@id/czas_prowadzenia_2tygodniowy"
+            android:layout_alignTop="@id/czas_prowadzenia_2tygodniowy"
+            android:textAlignment="center"
+            />
+    </RelativeLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Czas przerwy"
+        android:layout_gravity="center"
+        android:textAlignment="center"
+        android:textStyle="bold"/>
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Ciągły:"/>
+
+        <ProgressBar
+            style="@android:style/Widget.ProgressBar.Horizontal"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:max="45"
+            android:id="@+id/czas_przerwy"
+            android:layout_alignParentEnd="true"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/przerwa_Text"
+            android:layout_alignLeft="@id/czas_przerwy"
+            android:layout_alignBottom="@id/czas_przerwy"
+            android:layout_alignRight="@id/czas_przerwy"
+            android:layout_alignTop="@id/czas_przerwy"
+            android:textAlignment="center"
+            />
+
+    </RelativeLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Czas odpoczynku"
+        android:layout_gravity="center"
+        android:textAlignment="center"
+        android:textStyle="bold"/>
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Dzienny"/>
+        <ProgressBar
+            style="@android:style/Widget.ProgressBar.Horizontal"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:max="660"
+            android:id="@+id/czas_odpoczynku"
+            android:layout_alignParentEnd="true" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/odpoczynek_Text"
+            android:layout_alignLeft="@id/czas_odpoczynku"
+            android:layout_alignBottom="@id/czas_odpoczynku"
+            android:layout_alignRight="@id/czas_odpoczynku"
+            android:layout_alignTop="@id/czas_odpoczynku"
+            android:textAlignment="center"
+            />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Tygodniowy"/>
+        <ProgressBar
+            style="@android:style/Widget.ProgressBar.Horizontal"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:max="660"
+            android:id="@+id/czas_odpoczynku_tygodniowy"
+            android:layout_alignParentEnd="true" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/odpoczynek_tygodniowy_Text"
+            android:layout_alignLeft="@id/czas_odpoczynku_tygodniowy"
+            android:layout_alignBottom="@id/czas_odpoczynku_tygodniowy"
+            android:layout_alignRight="@id/czas_odpoczynku_tygodniowy"
+            android:layout_alignTop="@id/czas_odpoczynku_tygodniowy"
+            android:textAlignment="center"
+            />
+    </RelativeLayout>
+
+
+
+
+
+
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:orientation="horizontal"
+        android:weightSum="3">
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="J"
+            android:onClick="czynnosc"
+            android:id="@+id/jazda"
+            android:layout_weight="1"
+            android:layout_gravity="bottom"/>
 
-</FrameLayout>
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="P"
+            android:onClick="czynnosc"
+            android:id="@+id/przerwa"
+            android:layout_weight="1"
+            android:layout_gravity="bottom"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="O"
+            android:onClick="czynnosc"
+            android:id="@+id/odpoczynek"
+            android:layout_weight="1"
+            android:layout_gravity="bottom"/>
+
+
+    </LinearLayout>
+
+</LinearLayout>

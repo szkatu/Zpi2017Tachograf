@@ -2,11 +2,13 @@ package com.example.msi.zpi_interfejs;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 
+import java.io.FileInputStream;
 import java.util.ArrayList;
 
 public class Historia extends AppCompatActivity {
@@ -14,6 +16,7 @@ public class Historia extends AppCompatActivity {
     ArrayList<Element> list;
     ListView listView;
     CustomListAdapter adapter;
+    FileInputStream fIs;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,20 +42,34 @@ public class Historia extends AppCompatActivity {
     void start()
     {
         list = new ArrayList<>();
-        list.add(new Element(1, "12.02.16 06:31", "12.02.16 11:20", "4:45"));
-        list.add(new Element(2, "12.02.16 11:20", "12.02.16 11:50", "0:30"));
-        list.add(new Element(1, "12.02.16 11:50", "12.02.16 18:00", "4:45"));
-        list.add(new Element(3, "12.02.16 18:00", "12.02.17 07:00", "13:00"));
-        list.add(new Element(4, "12.02.17 07:00", "12.02.17 07:26", "0:26"));
-        list.add(new Element(1, "12.02.16 06:31", "12.02.16 11:20", "4:45"));
-        list.add(new Element(2, "12.02.16 11:20", "12.02.16 11:50", "0:30"));
-        list.add(new Element(1, "12.02.16 11:50", "12.02.16 18:00", "4:45"));
-        list.add(new Element(3, "12.02.16 18:00", "12.02.17 07:00", "13:00"));
-        list.add(new Element(4, "12.02.17 07:00", "12.02.17 07:26", "0:26"));
-        list.add(new Element(1, "12.02.16 06:31", "12.02.16 11:20", "4:45"));
-        list.add(new Element(2, "12.02.16 11:20", "12.02.16 11:50", "0:30"));
-        list.add(new Element(1, "12.02.16 11:50", "12.02.16 18:00", "4:45"));
-        list.add(new Element(3, "12.02.16 18:00", "12.02.17 07:00", "13:00"));
-        list.add(new Element(4, "12.02.17 07:00", "12.02.17 07:26", "0:26"));
+        String x = "";
+        int size;
+        try
+        {
+            fIs = openFileInput("historia");
+            while((size = fIs.read()) != -1)
+            {
+                x += Character.toString((char) size);
+            }
+            Log.i("LIFECYCLE",x);
+            fIs.close();
+        }catch(Exception e){e.printStackTrace();}
+        int t;
+        String p,k,c;
+        if(x != "")
+        {
+            while(x.length() != 0)
+            {
+                t = Integer.parseInt(x.substring(0,1));
+                x = x.substring(2);
+                p = x.substring(0,x.indexOf("|"));
+                x = x.substring(x.indexOf("|")+1);
+                k = x.substring(0,x.indexOf("|"));
+                x = x.substring(x.indexOf("|")+1);
+                c = x.substring(0,x.indexOf("#"));
+                x = x.substring(x.indexOf("#")+1);
+                list.add(new Element(t,p,k,c));
+            }
+        }
     }
 }

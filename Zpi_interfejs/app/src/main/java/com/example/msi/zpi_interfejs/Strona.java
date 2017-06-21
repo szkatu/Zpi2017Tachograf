@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -26,6 +27,8 @@ public class Strona extends Fragment {
     ListView listView;
     CustomPostojeAdapter adapter;
     ProgressIndicator mProgressIndicator;
+    TextView tekst;
+    TextView tekst2;
 
     public Strona() {
         // Required empty public constructor
@@ -45,11 +48,12 @@ public class Strona extends Fragment {
 
         mProgressIndicator = (ProgressIndicator) view.findViewById(R.id.progress_indicator);
         listView =(ListView) view.findViewById(R.id.listview2);
-
+        tekst = (TextView)view.findViewById(R.id.textView3);
+        tekst2 = (TextView)view.findViewById(R.id.textView2);
         mProgressIndicator.setForegroundColor(Color.parseColor("#D3D3D3"));
         mProgressIndicator.setBackgroundColor(Color.parseColor("#3F51B5"));
 
-        mProgressIndicator.setValue(0.4f);
+        mProgressIndicator.setValue(0f);
 
 
         list = new ArrayList<PointOfInterest>();
@@ -93,6 +97,16 @@ public class Strona extends Fragment {
         });
 
         return view;
+    }
+
+    public void setTekst(String s)
+    {
+        tekst.setText(s);
+    }
+
+    public void setTekst2(String s)
+    {
+        tekst2.setText(s);
     }
 
     void updatePOIs(List<PointOfInterest> pois)

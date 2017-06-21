@@ -11,9 +11,7 @@ import org.mockito.runners.MockitoJUnitRunner;
 import android.content.SharedPreferences;
 
 
-/**
- * Created by szkatu on 24.05.2017.
- */
+
 @RunWith(MockitoJUnitRunner.class)
 public class ActivityTrackerTester {
 
@@ -25,7 +23,7 @@ public class ActivityTrackerTester {
     public void drivingtimetest()
 {
 k.czasProwadzenia=270*60;
-    assertThat(k.jazda_przerwa(),is(true));
+    assertThat(k.jazda_przerwa(),is(false));
 
 
 
@@ -74,7 +72,7 @@ k.czasProwadzenia=270*60;
     {
         k.czasProwadzenia=60;
         k.skroconoPrzerwe=false;
-        assertThat(k.jazda_skroconaPrzerwa(),is(true));
+        assertThat(k.jazda_skroconaPrzerwa(),is(false));
 
 
 
@@ -87,7 +85,7 @@ k.czasProwadzenia=270*60;
         k.czasOstatniegoOdpoczynku=6*24*60*60;
         k.czasPracy2Tyg=90*60*60;
         k.skroconoPrzerwe=false;
-        assertThat(k.jazda_odpoczynekTygodniowy(),is(true));
+        assertThat(k.jazda_odpoczynekTygodniowy(),is(false));
 
 
 
@@ -100,7 +98,7 @@ k.czasProwadzenia=270*60;
         k.czasOstatniegoOdpoczynku=6*24*60*60;
         k.czasPracy2Tyg=90*60;
         k.skroconoPrzerwe=false;
-        assertThat(k.jazda_odpoczynekTygodniowy(),is(true));
+        assertThat(k.jazda_odpoczynekTygodniowy(),is(false));
 
 
 
@@ -123,7 +121,7 @@ k.czasProwadzenia=270*60;
     {
         k.czasProwadzenia=60;
         k.skroconoPrzerwe=false;
-        assertThat(k.jazda_skroconaPrzerwa(),is(true));
+        assertThat(k.jazda_skroconaPrzerwa(),is(false));
 
 
 
@@ -134,7 +132,7 @@ k.czasProwadzenia=270*60;
         k.czasProwadzenia=60;
         k.czasOdpoczynku=600000000;
         k.skroconoPrzerwe=false;
-        assertThat(k.odpoczynekTygodniowy_jazda(),is(true));
+        assertThat(k.odpoczynekTygodniowy_jazda(),is(false));
 
 
 
