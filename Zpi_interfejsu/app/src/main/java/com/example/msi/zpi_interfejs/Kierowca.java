@@ -32,7 +32,7 @@ public class Kierowca {
     public static final int cz4 = 30;     //czas drugiej podzielonej przerwy
     public static final int cz5 = 540;    //całkowity dzienny czas prowadzenia
     public static final int cz6 = 45*60;  //czas odpoczynku tygodniowego
-    public static final int cz7 = 24*60;  //czas odpoczynku dziennego
+    public static final int cz7 = 11*60;  //czas odpoczynku dziennego
     public static final int cz8 = 660;    //czas
     public static final int cz9 = 180;    //czas podzielonego odpoczynku
     public static final int cz10 = 56*60; //czas od opoczynku

@@ -56,7 +56,7 @@ public class Strona extends Fragment {
         mProgressIndicator.setForegroundColor(Color.parseColor("#D3D3D3"));
         mProgressIndicator.setBackgroundColor(Color.parseColor("#3F51B5"));
 
-        mProgressIndicator.setValue(0f);
+        mProgressIndicator.setValue(10);
 
 
         j = (ImageButton)view.findViewById(R.id.jazda);

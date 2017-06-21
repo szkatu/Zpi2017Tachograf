@@ -8,6 +8,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.graphics.BitmapFactory;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Handler;
@@ -37,7 +38,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-public class Trasa extends AppCompatActivity {
+public class Trasa extends AppCompatActivity implements ActivityCompat.OnRequestPermissionsResultCallback {
 
     private TabLayout tabLayout;
     private ViewPager viewPager;
@@ -215,7 +216,6 @@ public class Trasa extends AppCompatActivity {
                         //Update POIs lists
                         poisListFragment.updatePOIs(finder.currentPlaces);
                         mainFragment.updatePOIs(finder.currentPlaces.subList(0, 3));
-                        Toast.makeText(getApplicationContext(), "Updated POIs markers", Toast.LENGTH_SHORT).show();
                     }
                 });
             }
@@ -226,74 +226,30 @@ public class Trasa extends AppCompatActivity {
 
         mBuilder = new NotificationCompat.Builder(this)
                 .setSmallIcon(R.drawable.truck)
+                .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.drawable.truck))
                 .setContentTitle("Wojażer")
                 .setContentText("");
 
         sP = getApplicationContext().getSharedPreferences("czasy", Context.MODE_PRIVATE);
 
-        Thread placesThread = new Thread(placesUpdate);
-        placesThread.start();
-
-
-
+        //Check all permissions
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
                 && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED){
             ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION}, 1);
         }
+        else{
 
-        boolean isGPSEnabled = ((LocationManager)getSystemService(LOCATION_SERVICE)).isProviderEnabled(LocationManager.GPS_PROVIDER);
-
-        if(!isGPSEnabled) {
-            AlertDialog.Builder builder1 = new AlertDialog.Builder(this);
-            builder1.setMessage("Gps is turned off. Change your settings and try again.");
-            builder1.setCancelable(true);
-
-            builder1.setPositiveButton(
-                    "Settings",
-                    new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int id) {
-                            Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
-                            startActivity(intent);
-                        }
-                    });
-
-            builder1.setNegativeButton(
-                    "Cancel",
-                    new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int id) {
-                            dialog.cancel();
-                        }
-                    });
-
-            AlertDialog alert11 = builder1.create();
-            alert11.show();
+            onGPSPermissionGranted();
         }
 
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.INTERNET) != PackageManager.PERMISSION_GRANTED){
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.INTERNET}, 2);
+        }
+        else{
 
-        viewPager = (ViewPager) findViewById(R.id.viewpager);
-        setupViewPager(viewPager);
-        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+            onInternetPermissionGranted();
+        }
 
-            }
-
-            @Override
-            public void onPageSelected(int position) {
-                if(position == 3)
-                    mapFragment.zoomOncurrentLocation();
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int state) {
-
-            }
-        });
-
-        tabLayout = (TabLayout) findViewById(R.id.tabs);
-        tabLayout.setupWithViewPager(viewPager);
-        setupTabIcons();
 
 
     }
@@ -354,5 +310,104 @@ public class Trasa extends AppCompatActivity {
             //return mFragmentTitleList.get(position);
             return null;
         }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           String permissions[], int[] grantResults) {
+
+        switch (requestCode) {
+            case 1: {
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+
+                    onGPSPermissionGranted();
+
+                } else {
+
+                    // permission denied, boo! Disable the
+                    // functionality that depends on this permission.
+                }
+                return;
+            }
+            case 2: {
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+
+                    onInternetPermissionGranted();
+
+                } else {
+
+                    // permission denied, boo! Disable the
+                    // functionality that depends on this permission.
+                }
+                return;
+            }
+
+            // other 'case' lines to check for other
+            // permissions this app might request
+        }
+    }
+
+    private void onInternetPermissionGranted(){
+
+        Thread placesThread = new Thread(placesUpdate);
+        placesThread.start();
+    }
+
+    private void onGPSPermissionGranted(){
+        boolean isGPSEnabled = ((LocationManager)getSystemService(LOCATION_SERVICE)).isProviderEnabled(LocationManager.GPS_PROVIDER);
+
+        if(!isGPSEnabled) {
+            AlertDialog.Builder builder1 = new AlertDialog.Builder(this);
+            builder1.setMessage("Gps is turned off. Change your settings and try again.");
+            builder1.setCancelable(true);
+
+            builder1.setPositiveButton(
+                    "Settings",
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                            startActivity(intent);
+                        }
+                    });
+
+            builder1.setNegativeButton(
+                    "Cancel",
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            dialog.cancel();
+                        }
+                    });
+
+            AlertDialog alert11 = builder1.create();
+            alert11.show();
+        }
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        viewPager = (ViewPager) findViewById(R.id.viewpager);
+        setupViewPager(viewPager);
+        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                if(position == 3)
+                    mapFragment.zoomOncurrentLocation();
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
+
+        tabLayout = (TabLayout) findViewById(R.id.tabs);
+        tabLayout.setupWithViewPager(viewPager);
+        setupTabIcons();
     }
 }

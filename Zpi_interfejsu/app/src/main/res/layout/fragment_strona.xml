@@ -29,7 +29,7 @@
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="3:20"
+        android:text="0:00"
         android:textStyle="bold"
         android:textSize="27sp"
         android:layout_marginBottom="54dp"
