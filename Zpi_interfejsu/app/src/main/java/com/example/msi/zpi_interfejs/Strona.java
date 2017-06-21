@@ -13,6 +13,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -29,6 +31,7 @@ public class Strona extends Fragment {
     ProgressIndicator mProgressIndicator;
     TextView tekst;
     TextView tekst2;
+    ImageButton j,p,o,ip;
 
     public Strona() {
         // Required empty public constructor
@@ -55,6 +58,11 @@ public class Strona extends Fragment {
 
         mProgressIndicator.setValue(0f);
 
+
+        j = (ImageButton)view.findViewById(R.id.jazda);
+        p = (ImageButton)view.findViewById(R.id.przerwa);
+        o = (ImageButton)view.findViewById(R.id.odpoczynek);
+        ip = (ImageButton)view.findViewById(R.id.innaPraca);
 
         list = new ArrayList<PointOfInterest>();
         adapter = new CustomPostojeAdapter((Activity)view.getContext(), list);

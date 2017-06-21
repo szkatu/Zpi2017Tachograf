@@ -43,4 +43,53 @@
         android:layout_below="@+id/progress_indicator"
         android:paddingTop="10dp"/>
 
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        >
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:onClick="czynnosc"
+            android:id="@+id/jazda"
+            android:layout_weight="1"
+            android:layout_gravity="bottom"
+            android:src="@drawable/jazda"/>
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:onClick="czynnosc"
+            android:id="@+id/przerwa"
+            android:layout_weight="1"
+            android:layout_gravity="bottom"
+            android:src="@drawable/przerwa"/>
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:onClick="czynnosc"
+            android:id="@+id/odpoczynek"
+            android:layout_weight="1"
+            android:layout_gravity="bottom"
+            android:src="@drawable/odpoczynek"/>
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:onClick="czynnosc"
+            android:id="@+id/innaPraca"
+            android:layout_weight="1"
+            android:layout_gravity="bottom"
+            android:src="@drawable/innapraca"/>
+
+
+    </LinearLayout>
+
 </RelativeLayout>

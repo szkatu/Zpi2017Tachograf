@@ -250,39 +250,6 @@
 
 
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="horizontal"
-        android:weightSum="3">
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="J"
-            android:onClick="czynnosc"
-            android:id="@+id/jazda"
-            android:layout_weight="1"
-            android:layout_gravity="bottom"/>
 
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="P"
-            android:onClick="czynnosc"
-            android:id="@+id/przerwa"
-            android:layout_weight="1"
-            android:layout_gravity="bottom"/>
-
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="O"
-            android:onClick="czynnosc"
-            android:id="@+id/odpoczynek"
-            android:layout_weight="1"
-            android:layout_gravity="bottom"/>
-
-
-    </LinearLayout>
 
 </LinearLayout>

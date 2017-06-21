@@ -25,6 +25,7 @@ import android.os.Bundle;
 import android.text.format.DateUtils;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.model.Marker;
@@ -50,7 +51,7 @@ public class Trasa extends AppCompatActivity {
     private PlaceFinder finder;
     private Temp tachoGraf;
     private Handler handler = new Handler();
-
+    private Handler timerHandler = new Handler();
     private NotificationCompat.Builder mBuilder;
     private NotificationManager nMgr;
 
@@ -93,7 +94,7 @@ public class Trasa extends AppCompatActivity {
                         mBuilder.setContentIntent(intent);
                         nMgr.notify(1, mBuilder.build());
                     }
-                    handler.postDelayed(this, 60000);
+                    timerHandler.postDelayed(this, 60000);
                 }
 
 
@@ -116,9 +117,10 @@ public class Trasa extends AppCompatActivity {
 
             start = sP.getLong("start",0L);
             long godzina = calendar.getTimeInMillis();
-            long diff = godzina - start;
+            int diff = (int)(godzina - start);
            // diff = diff / DateUtils.SECOND_IN_MILLIS;
-            String czas = diff/(1000*60*60)+":"+diff/(1000*60);
+
+            String czas = diff/(1000*60*60)+":"+((diff/(1000*60))%60);
             //start = start / DateUtils.SECOND_IN_MILLIS;
             String s = formatter.format(start);
            // godzina = godzina / DateUtils.SECOND_IN_MILLIS;
@@ -146,24 +148,37 @@ public class Trasa extends AppCompatActivity {
         switch(v.getId())
         {
             case R.id.jazda:
-                tachoGraf.jazda();
+                tachoGraf.jazda(mainFragment);
+                mainFragment.p.setVisibility(View.VISIBLE);
+                mainFragment.o.setVisibility(View.VISIBLE);
+                mainFragment.ip.setVisibility(View.VISIBLE);
                 break;
             case R.id.przerwa:
-                tachoGraf.przerwa();
+                tachoGraf.przerwa(mainFragment);
+                mainFragment.j.setVisibility(View.VISIBLE);
+                mainFragment.o.setVisibility(View.VISIBLE);
+                mainFragment.ip.setVisibility(View.VISIBLE);
                 break;
             case R.id.odpoczynek:
-                tachoGraf.odpoczynek();
+                tachoGraf.odpoczynek(mainFragment);
+                mainFragment.j.setVisibility(View.VISIBLE);
+                mainFragment.p.setVisibility(View.VISIBLE);
+                mainFragment.ip.setVisibility(View.VISIBLE);
+                break;
+            case R.id.innaPraca:
+                tachoGraf.innaPraca(mainFragment);
+                mainFragment.j.setVisibility(View.VISIBLE);
+                mainFragment.p.setVisibility(View.VISIBLE);
+                mainFragment.o.setVisibility(View.VISIBLE);
                 break;
         }
-
+        v.setVisibility(View.INVISIBLE);
 
         mBuilder = tachoGraf.mBuilder;
         PendingIntent intent = PendingIntent.getActivity(getApplicationContext(),0,new Intent(Trasa.this,Trasa.class).setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP),PendingIntent.FLAG_UPDATE_CURRENT);
         mBuilder.setContentIntent(intent);
         nMgr.notify(1,mBuilder.build());
     }
-
-
 
 
 
@@ -205,6 +220,7 @@ public class Trasa extends AppCompatActivity {
                 });
             }
         });
+
 
         nMgr = (NotificationManager)getSystemService(NOTIFICATION_SERVICE);
 

@@ -22,7 +22,7 @@ public class Temp extends Fragment {
 
     public TextView stan, jazda_Text, jazda_dzienna_Text, jazda_tygodniowa_Text, jazda_2tygodniowa_Text, przerwa_Text, odpoczynek_Text, odpoczynek_tygodniowy_Text;
     public ProgressBar czas_prowadzenia,czas_prowadzenia_dzienny,czas_prowadzenia_tygodniowy,czas_prowadzenia_2tygodniowy,czas_przerwy,czas_odpoczynku, czas_odpoczynku_tygodniowy;
-    public Button jazda, odpoczynek, przerwa;
+   // public Button jazda, odpoczynek, przerwa;
     public Kierowca kierowca;
     public NotificationCompat.Builder mBuilder;
     SharedPreferences sP;
@@ -49,9 +49,9 @@ public class Temp extends Fragment {
         long time = c.getInstance().getTimeInMillis() - sP.getLong("time",c.getInstance().getTimeInMillis());
         time = time / DateUtils.MINUTE_IN_MILLIS;
         kierowca.restore(sP.getInt("stan",0),sP.getInt("czasProwadzenia",0),sP.getInt("czasProwadzeniaDzien",0),sP.getInt("czasPrzerwy",0),sP.getInt("czasProwadzeniaTyg",0),sP.getInt("czasProwadzenia2Tyg",0),sP.getInt("czasOdpoczynkuDzien",0),sP.getInt("czasOdpoczynkuTyg",0),(int)time);
-        jazda = (Button)view.findViewById(R.id.jazda);
-        odpoczynek = (Button)view.findViewById(R.id.odpoczynek);
-        przerwa = (Button)view.findViewById(R.id.przerwa);
+      //  jazda = (Button)view.findViewById(R.id.jazda);
+      //  odpoczynek = (Button)view.findViewById(R.id.odpoczynek);
+       // przerwa = (Button)view.findViewById(R.id.przerwa);
 
 
         mBuilder = new NotificationCompat.Builder(getContext())
@@ -153,28 +153,52 @@ public class Temp extends Fragment {
 
 
 
-    public void jazda()
+    public void jazda(Strona strona)
     {
+        int x = 0;
         kierowca.stan = 1;
+        strona.mProgressIndicator.setValue(Math.abs(1-(float)kierowca.czasProwadzenia/(float)Kierowca.cz1));
+        x = Kierowca.cz1 - kierowca.czasProwadzenia;
+        strona.setTekst("" + x / 60 + ":" + x % 60);
+        if(x < 0)strona.setTekst2("Więcej o");
         stan.setText("JAZDA");
         mBuilder.setProgress(Kierowca.cz1, kierowca.czasProwadzenia, false);
         mBuilder.setContentText("Jazda");
     }
 
-    public void przerwa()
+    public void przerwa(Strona strona)
     {
+        int x =0;
         kierowca.stan = 2;
         stan.setText("PRZERWA");
+        strona.mProgressIndicator.setValue(Math.abs(1-(float)kierowca.czasPrzerwy/(float)Kierowca.cz2));
+        x = Kierowca.cz2 - kierowca.czasPrzerwy;
+        strona.setTekst("" + x / 60 + ":" + x % 60);
+        if(x < 0)strona.setTekst2("Więcej o");
         mBuilder.setProgress(Kierowca.cz2, kierowca.czasPrzerwy, false);
         mBuilder.setContentText("Przerwa");
     }
 
-    public void odpoczynek()
+    public void odpoczynek(Strona strona)
     {
+        int x = 0;
         kierowca.stan = 3;
         stan.setText("ODPOCZYNEK");
+        strona.mProgressIndicator.setValue(Math.abs(1-(float)kierowca.czasOdpoczynkuDzien/(float)Kierowca.cz7));
+        x = Kierowca.cz7 - kierowca.czasOdpoczynkuDzien;
+        strona.setTekst("" + x / 60 + ":" + x % 60);
+        if(x < 0)strona.setTekst2("Więcej o");
         mBuilder.setProgress(Kierowca.cz7, kierowca.czasOdpoczynku, false);
         mBuilder.setContentText("Odpoczynek");
+    }
+
+    public void innaPraca(Strona strona)
+    {
+        kierowca.stan = 4;
+        strona.mProgressIndicator.setValue(0f);
+        strona.setTekst("00:00");
+        mBuilder.setProgress(1,1,false);
+        mBuilder.setContentText("Inna praca");
     }
 
 }
