@@ -30,6 +30,7 @@ public class PlaceFinder {
 
     public void updatePlaces(final LatLng pos){
 
+        Log.i("E", "UPDATE");
         if(pos == null)
             return;
 
@@ -41,9 +42,11 @@ public class PlaceFinder {
                     String nextToken = null;
                     boolean load = true;
 
+                    int count = 0;
                     //Send google places request
-                    while(load) {
-                        String urlString = "https://maps.googleapis.com/maps/api/place/search/json?location=" + pos.latitude + ", " + pos.longitude + "&rankby=distance&types=parking|lodging|gas_station&key=AIzaSyB0sdfU9YLdsHW09za7-clJuQ2FidqNtmo";
+                    while(count < 3) {
+                        String urlString = "https://maps.googleapis.com/maps/api/place/search/json?location=" + pos.latitude + "," + pos.longitude + "&rankby=distance&types=parking|lodging|gas_station&key=AIzaSyB0sdfU9YLdsHW09za7-clJuQ2FidqNtmo";
+                        //String urlString = "http://google.com";
                         if(nextToken != null)
                             urlString = urlString + "&pagetoken=" + nextToken;
                         URL url = new URL(urlString);
@@ -69,6 +72,7 @@ public class PlaceFinder {
                             } catch (Exception e) {
                                 load = false;
                             }
+                            count++;
 
                             //Update places data with location, name and type
                             JSONArray resultArray = json.getJSONArray("results");
@@ -99,6 +103,10 @@ public class PlaceFinder {
                                 }
                                 currentPlaces.add(tmp);
                             }
+                        }
+                        else {
+                            load = false;
+                            Log.i("HTTP", "E: " + statuscode);
                         }
                     }
 
@@ -143,7 +151,7 @@ public class PlaceFinder {
                     }
 
                 }catch(Exception e){
-                    Log.d("ERROR", e.toString());
+                    Log.i("ERROR", e.toString());
                 }
 
                 if(listener != null)

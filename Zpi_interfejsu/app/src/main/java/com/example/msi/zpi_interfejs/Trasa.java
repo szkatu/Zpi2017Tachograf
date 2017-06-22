@@ -43,6 +43,8 @@ public class Trasa extends AppCompatActivity implements ActivityCompat.OnRequest
     private TabLayout tabLayout;
     private ViewPager viewPager;
 
+    private Thread t;
+
     private CustomLocationProvider provider;
 
     //Fragments
@@ -70,6 +72,7 @@ public class Trasa extends AppCompatActivity implements ActivityCompat.OnRequest
     Runnable placesUpdate = new Runnable() {
         @Override
         public void run() {
+            Log.i("CIPA", "func");
             if(mapFragment != null && mapFragment.provider != null && mapFragment.provider.getLastLocation() != null) {
                 finder.updatePlaces(mapFragment.provider.getLastLocation());
                 //Referesh POIs every minute
@@ -218,6 +221,7 @@ public class Trasa extends AppCompatActivity implements ActivityCompat.OnRequest
                         mainFragment.updatePOIs(finder.currentPlaces.subList(0, 3));
                     }
                 });
+                Log.i("SIEMA", "ELO");
             }
         });
 
@@ -234,21 +238,23 @@ public class Trasa extends AppCompatActivity implements ActivityCompat.OnRequest
 
         //Check all permissions
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
-                && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED){
-            ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION}, 1);
+                || ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED
+                || ActivityCompat.checkSelfPermission(this, Manifest.permission.INTERNET) != PackageManager.PERMISSION_GRANTED){
+            ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.INTERNET}, 1);
         }
         else{
 
             onGPSPermissionGranted();
-        }
-
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.INTERNET) != PackageManager.PERMISSION_GRANTED){
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.INTERNET}, 2);
-        }
-        else{
-
             onInternetPermissionGranted();
         }
+
+//        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.INTERNET) != PackageManager.PERMISSION_GRANTED){
+//            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.INTERNET}, 2);
+//        }
+//        else{
+//
+//            onInternetPermissionGranted();
+//        }
 
 
 
@@ -319,21 +325,11 @@ public class Trasa extends AppCompatActivity implements ActivityCompat.OnRequest
         switch (requestCode) {
             case 1: {
                 // If request is cancelled, the result arrays are empty.
-                if (grantResults.length > 0
-                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                if (grantResults.length == 2
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED
+                        && grantResults[1] == PackageManager.PERMISSION_GRANTED) {
 
                     onGPSPermissionGranted();
-
-                } else {
-
-                    // permission denied, boo! Disable the
-                    // functionality that depends on this permission.
-                }
-                return;
-            }
-            case 2: {
-                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-
                     onInternetPermissionGranted();
 
                 } else {
@@ -343,6 +339,18 @@ public class Trasa extends AppCompatActivity implements ActivityCompat.OnRequest
                 }
                 return;
             }
+//            case 2: {
+//                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+//
+//                    onInternetPermissionGranted();
+//
+//                } else {
+//
+//                    // permission denied, boo! Disable the
+//                    // functionality that depends on this permission.
+//                }
+//                return;
+//            }
 
             // other 'case' lines to check for other
             // permissions this app might request
@@ -351,8 +359,8 @@ public class Trasa extends AppCompatActivity implements ActivityCompat.OnRequest
 
     private void onInternetPermissionGranted(){
 
-        Thread placesThread = new Thread(placesUpdate);
-        placesThread.start();
+        t = new Thread(placesUpdate);
+        t.start();
     }
 
     private void onGPSPermissionGranted(){

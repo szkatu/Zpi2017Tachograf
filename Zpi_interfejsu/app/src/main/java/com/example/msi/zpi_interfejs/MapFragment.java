@@ -146,34 +146,35 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
     public void updatePOIs(ArrayList<PointOfInterest> pois){
 
-        for(Marker m : markers){
-            m.remove();
-        }
-        markers.clear();
+        if(mMap != null) {
+            for (Marker m : markers) {
+                m.remove();
+            }
+            markers.clear();
 
-        int cp = 0, ch = 0, cg = 0;
-        //Add new POI markers
-        for(PointOfInterest p : pois){
+            int cp = 0, ch = 0, cg = 0;
+            //Add new POI markers
+            for (PointOfInterest p : pois) {
 
-            String type;
-            float color;
-            if(p.isGasStation) {
-                type = "G";
-                color = BitmapDescriptorFactory.HUE_RED;
+                String type;
+                float color;
+                if (p.isGasStation) {
+                    type = "G";
+                    color = BitmapDescriptorFactory.HUE_RED;
+                } else if (p.isHotel) {
+                    type = "H";
+                    color = BitmapDescriptorFactory.HUE_GREEN;
+                } else {
+                    type = "P";
+                    color = BitmapDescriptorFactory.HUE_BLUE;
+                }
+                markers.add(mMap.addMarker(new MarkerOptions().position(p.pos)
+                        .title(p.name)
+                        .snippet("ETA: " + p.durationString + "\nDistance: " + p.distanceString + "\n" + type)
+                        .icon(BitmapDescriptorFactory.defaultMarker(color))));
             }
-            else if(p.isHotel) {
-                type = "H";
-                color = BitmapDescriptorFactory.HUE_GREEN;
-            }
-            else {
-                type = "P";
-                color = BitmapDescriptorFactory.HUE_BLUE;
-            }
-            markers.add(mMap.addMarker(new MarkerOptions().position(p.pos)
-                    .title(p.name)
-                    .snippet("ETA: " + p.durationString + "\nDistance: " + p.distanceString + "\n" + type)
-                    .icon(BitmapDescriptorFactory.defaultMarker(color))));
         }
+        Log.i("MARKER", "MMMMM");
     }
 
     public void zoomOncurrentLocation(){
