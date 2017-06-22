@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -22,7 +23,7 @@ public class Temp extends Fragment {
 
     public TextView stan, jazda_Text, jazda_dzienna_Text, jazda_tygodniowa_Text, jazda_2tygodniowa_Text, przerwa_Text, odpoczynek_Text, odpoczynek_tygodniowy_Text;
     public ProgressBar czas_prowadzenia,czas_prowadzenia_dzienny,czas_prowadzenia_tygodniowy,czas_prowadzenia_2tygodniowy,czas_przerwy,czas_odpoczynku, czas_odpoczynku_tygodniowy;
-    public Button jazda, odpoczynek, przerwa;
+    public ImageButton jazda, odpoczynek, przerwa;
     public Kierowca kierowca;
     public NotificationCompat.Builder mBuilder;
     SharedPreferences sP;
@@ -49,9 +50,9 @@ public class Temp extends Fragment {
         long time = c.getInstance().getTimeInMillis() - sP.getLong("time",c.getInstance().getTimeInMillis());
         time = time / DateUtils.MINUTE_IN_MILLIS;
         kierowca.restore(sP.getInt("stan",0),sP.getInt("czasProwadzenia",0),sP.getInt("czasProwadzeniaDzien",0),sP.getInt("czasPrzerwy",0),sP.getInt("czasProwadzeniaTyg",0),sP.getInt("czasProwadzenia2Tyg",0),sP.getInt("czasOdpoczynkuDzien",0),sP.getInt("czasOdpoczynkuTyg",0),(int)time);
-        jazda = (Button)view.findViewById(R.id.jazda);
-        odpoczynek = (Button)view.findViewById(R.id.odpoczynek);
-        przerwa = (Button)view.findViewById(R.id.przerwa);
+        jazda = (ImageButton)view.findViewById(R.id.jazda);
+        odpoczynek = (ImageButton)view.findViewById(R.id.odpoczynek);
+        przerwa = (ImageButton)view.findViewById(R.id.przerwa);
 
 
         mBuilder = new NotificationCompat.Builder(getContext())
@@ -212,6 +213,14 @@ public class Temp extends Fragment {
         stan.setText("ODPOCZYNEK");
 
         mBuilder.setContentText("Odpoczynek");
+    }
+
+    public void innaPraca()
+    {
+        kierowca.stan = 4;
+        stan.setText("INNA PRACA");
+        mBuilder.setContentText("Inna praca");
+        mBuilder.setProgress(0,0, false);
     }
 
 }
