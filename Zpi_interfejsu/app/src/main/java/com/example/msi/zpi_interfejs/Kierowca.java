@@ -63,18 +63,25 @@ public class Kierowca {
     public void restore(int s, int cp, int ccp, int cpr, int cpt, int cp2t, int co, int cot, int time)
     {
         stan = s;
+        czasProwadzenia = cp;
+        calkCzasProwadzenia = ccp;
+        czasPracyTyg = cpt;
+        czasPracy2Tyg = cp2t;
+        czasPrzerwy = cpr;
+        czasOdpoczynkuTyg = cot;
+        czasOdpoczynkuDzien = co;
         if(stan == 1) {
-            czasProwadzenia = cp + time;
-            calkCzasProwadzenia = ccp + time;
-            czasPracyTyg = cpt + time;
-            czasPracy2Tyg = cp2t + time;
+            czasProwadzenia += time;
+            calkCzasProwadzenia += time;
+            czasPracyTyg += time;
+            czasPracy2Tyg += time;
         }
         else if(stan == 2)
-        czasPrzerwy = cpr+time;
+        czasPrzerwy += time;
         else if(stan == 3)
-        czasOdpoczynkuDzien = co+time;
+        czasOdpoczynkuDzien += time;
         else if(stan ==5)
-        czasOdpoczynkuTyg = cot+time;
+        czasOdpoczynkuTyg += time;
     }
 
     public void jazda()
@@ -119,12 +126,12 @@ public class Kierowca {
     {
         if(czasProwadzenia >= cz1 && !skroconoPrzerwe)
         {
-            czasProwadzenia = 0;
+
             return true;
         }
         else if(czasProwadzenia >= cz1 && skroconoPrzerwe)
         {
-            czasProwadzenia = 0;
+
             skroconoPrzerwe = false;
             return true;
         }
@@ -147,6 +154,7 @@ public class Kierowca {
         if(czasPrzerwy >= cz2)
         {
             czasPrzerwy = 0;
+            czasProwadzenia = 0;
             return true;
         }
         else return false;
@@ -160,6 +168,7 @@ public class Kierowca {
         }
         else if(czasPrzerwy >= cz4 && !skroconoPrzerwe)
         {
+            czasProwadzenia = 0;
             return true;
         }
         else return false;
@@ -169,14 +178,14 @@ public class Kierowca {
     {
         if(calkCzasProwadzenia >= cz5)
         {
-            calkCzasProwadzenia = 0;
-            czasProwadzenia = 0;
+           // calkCzasProwadzenia = 0;
+            //czasProwadzenia = 0;
             return true;
         }
         else if(czasOdpoczynkuDzien == cz7 || czasOdpoczynkuTyg == cz7)
         {
-            calkCzasProwadzenia = 0;
-            czasProwadzenia = 0;
+            //calkCzasProwadzenia = 0;
+            //czasProwadzenia = 0;
             return true;
         }
         else return false;
@@ -213,6 +222,8 @@ public class Kierowca {
         if(czasOdpoczynku >= cz8)
         {
             czasOdpoczynku = 0;
+            czasProwadzenia = 0;
+            calkCzasProwadzenia = 0;
             return true;
         }
 
@@ -242,14 +253,14 @@ public class Kierowca {
     {
         if(czasPracyTyg >= cz10 || czasPracy2Tyg >= cz11)
         {
-            czasProwadzenia = 0;
-            calkCzasProwadzenia = 0;
+           // czasProwadzenia = 0;
+            //calkCzasProwadzenia = 0;
             return true;
         }
         else if(czasOstatniegoOdpoczynku >= cz12)
         {
-            czasProwadzenia = 0;
-            calkCzasProwadzenia = 0;
+           // czasProwadzenia = 0;
+            //calkCzasProwadzenia = 0;
             return true;
         }
         else return false;
@@ -260,6 +271,10 @@ public class Kierowca {
         if(czasOdpoczynku >= cz6)
         {
             czasOdpoczynku = 0;
+            czasPracy2Tyg = 0;
+            czasProwadzenia = 0;
+            calkCzasProwadzenia = 0;
+            czasPracy = 0;
             skrocenieTyg = true;
             return true;
         }
