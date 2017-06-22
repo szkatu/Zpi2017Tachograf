@@ -145,7 +145,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     }
 
     public void updatePOIs(ArrayList<PointOfInterest> pois){
-
+        ArrayList<PointOfInterest> poislocal= new ArrayList<> (pois);
         if(mMap != null) {
             for (Marker m : markers) {
                 m.remove();
@@ -154,7 +154,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
             int cp = 0, ch = 0, cg = 0;
             //Add new POI markers
-            for (PointOfInterest p : pois) {
+            for (PointOfInterest p : poislocal) {
 
                 String type;
                 float color;
