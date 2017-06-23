@@ -154,11 +154,12 @@ public class Temp extends Fragment {
 
 
 
-    public void jazda()
+    public void jazda(Strona strona)
     {
         if(kierowca.czasProwadzenia < Kierowca.cz1)
         {
             kierowca.stan=1;
+            stan.setText("JAZDA");
         }
         else {
             if (kierowca.stan == 2) {
@@ -180,19 +181,27 @@ public class Temp extends Fragment {
                 }
             }
         }
-        mBuilder.setProgress(Kierowca.cz1, kierowca.czasProwadzenia, false);
-        mBuilder.setContentText("Jazda");
+        if(kierowca.stan == 1) {
+            strona.mProgressIndicator.setValue(Math.abs(1 - (float) kierowca.czasProwadzenia / (float) Kierowca.cz1));
+            int x = Kierowca.cz1 - kierowca.czasProwadzenia;
+            strona.setTekst("" + x / 60 + ":" + x % 60);
+            mBuilder.setProgress(Kierowca.cz1, kierowca.czasProwadzenia, false);
+            mBuilder.setContentText("Jazda");
+        }
     }
 
-    public void przerwa()
+    public void przerwa(Strona strona)
     {
         kierowca.stan = 2;
         stan.setText("PRZERWA");
+        strona.mProgressIndicator.setValue(Math.abs(1-(float)kierowca.czasPrzerwy/(float)Kierowca.cz2));
+        int x = Kierowca.cz2 - kierowca.czasPrzerwy;
+        strona.setTekst("" + x / 60 + ":" + x % 60);
         mBuilder.setProgress(Kierowca.cz2, kierowca.czasPrzerwy, false);
         mBuilder.setContentText("Przerwa");
     }
 
-    public void odpoczynek()
+    public void odpoczynek(Strona strona)
     {
         if(kierowca.stan == 1)
         {
@@ -200,13 +209,17 @@ public class Temp extends Fragment {
             {
                 kierowca.stan = 5;
                 mBuilder.setProgress(Kierowca.cz6, kierowca.czasOdpoczynkuTyg, false);
-
+                strona.mProgressIndicator.setValue(Math.abs(1-(float)kierowca.czasOdpoczynkuDzien/(float)Kierowca.cz7));
+                int x = Kierowca.cz6 - kierowca.czasOdpoczynkuDzien;
+                strona.setTekst("" + x / 60 + ":" + x % 60);
             }
             if(kierowca.jazda_odpoczynekDzienny())
             {
                 kierowca.stan = 3;
                 mBuilder.setProgress(Kierowca.cz7, kierowca.czasOdpoczynkuDzien, false);
-
+                strona.mProgressIndicator.setValue(Math.abs(1-(float)kierowca.czasOdpoczynkuTyg/(float)Kierowca.cz6));
+                int x = Kierowca.cz6 - kierowca.czasOdpoczynkuTyg;
+                strona.setTekst("" + x / 60 + ":" + x % 60);
             }
         }
         else kierowca.stan = 3;
@@ -215,7 +228,7 @@ public class Temp extends Fragment {
         mBuilder.setContentText("Odpoczynek");
     }
 
-    public void innaPraca()
+    public void innaPraca(Strona strona)
     {
         kierowca.stan = 4;
         stan.setText("INNA PRACA");

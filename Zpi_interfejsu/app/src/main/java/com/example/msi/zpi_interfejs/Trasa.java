@@ -152,25 +152,25 @@ public class Trasa extends AppCompatActivity implements ActivityCompat.OnRequest
         switch(v.getId())
         {
             case R.id.jazda:
-                tachoGraf.jazda();
+                tachoGraf.jazda(mainFragment);
                 mainFragment.p.setVisibility(View.VISIBLE);
                 mainFragment.o.setVisibility(View.VISIBLE);
                 mainFragment.ip.setVisibility(View.VISIBLE);
                 break;
             case R.id.przerwa:
-                tachoGraf.przerwa();
+                tachoGraf.przerwa(mainFragment);
                 mainFragment.j.setVisibility(View.VISIBLE);
                 mainFragment.o.setVisibility(View.VISIBLE);
                 mainFragment.ip.setVisibility(View.VISIBLE);
                 break;
             case R.id.odpoczynek:
-                tachoGraf.odpoczynek();
+                tachoGraf.odpoczynek(mainFragment);
                 mainFragment.j.setVisibility(View.VISIBLE);
                 mainFragment.p.setVisibility(View.VISIBLE);
                 mainFragment.ip.setVisibility(View.VISIBLE);
                 break;
             case R.id.innaPraca:
-                tachoGraf.innaPraca();
+                tachoGraf.innaPraca(mainFragment);
                 mainFragment.j.setVisibility(View.VISIBLE);
                 mainFragment.p.setVisibility(View.VISIBLE);
                 mainFragment.o.setVisibility(View.VISIBLE);
