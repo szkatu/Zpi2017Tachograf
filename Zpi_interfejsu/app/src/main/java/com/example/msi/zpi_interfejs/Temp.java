@@ -222,7 +222,12 @@ public class Temp extends Fragment {
                 strona.setTekst("" + x / 60 + ":" + x % 60);
             }
         }
-        else kierowca.stan = 3;
+        else{ kierowca.stan = 3;
+        mBuilder.setProgress(Kierowca.cz7, kierowca.czasOdpoczynkuDzien, false);
+        strona.mProgressIndicator.setValue(Math.abs(1-(float)kierowca.czasOdpoczynkuDzien/(float)Kierowca.cz7));
+        int x = Kierowca.cz7 - kierowca.czasOdpoczynkuDzien;
+        strona.setTekst("" + x / 60 + ":" + x % 60);
+        }
         stan.setText("ODPOCZYNEK");
 
         mBuilder.setContentText("Odpoczynek");
