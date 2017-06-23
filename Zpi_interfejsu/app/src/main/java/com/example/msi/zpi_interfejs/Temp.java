@@ -209,7 +209,7 @@ public class Temp extends Fragment {
             {
                 kierowca.stan = 5;
                 mBuilder.setProgress(Kierowca.cz6, kierowca.czasOdpoczynkuTyg, false);
-                strona.mProgressIndicator.setValue(Math.abs(1-(float)kierowca.czasOdpoczynkuDzien/(float)Kierowca.cz7));
+                strona.mProgressIndicator.setValue(Math.abs(1-(float)kierowca.czasOdpoczynkuTyg/(float)Kierowca.cz6));
                 int x = Kierowca.cz6 - kierowca.czasOdpoczynkuDzien;
                 strona.setTekst("" + x / 60 + ":" + x % 60);
             }
@@ -217,7 +217,7 @@ public class Temp extends Fragment {
             {
                 kierowca.stan = 3;
                 mBuilder.setProgress(Kierowca.cz7, kierowca.czasOdpoczynkuDzien, false);
-                strona.mProgressIndicator.setValue(Math.abs(1-(float)kierowca.czasOdpoczynkuTyg/(float)Kierowca.cz6));
+                strona.mProgressIndicator.setValue(Math.abs(1-(float)kierowca.czasOdpoczynkuDzien/(float)Kierowca.cz7));
                 int x = Kierowca.cz6 - kierowca.czasOdpoczynkuTyg;
                 strona.setTekst("" + x / 60 + ":" + x % 60);
             }
