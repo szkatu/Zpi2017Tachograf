@@ -218,7 +218,10 @@ public class Trasa extends AppCompatActivity implements ActivityCompat.OnRequest
                         mapFragment.updatePOIs(finder.currentPlaces);
                         //Update POIs lists
                         poisListFragment.updatePOIs(finder.currentPlaces);
+                        if(finder.currentPlaces.size()>3)
                         mainFragment.updatePOIs(finder.currentPlaces.subList(0, 3));
+                        else
+                            mainFragment.updatePOIs(finder.currentPlaces);
                     }
                 });
                 Log.i("SIEMA", "ELO");
