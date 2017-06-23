@@ -107,9 +107,13 @@ public class Strona extends Fragment {
         return view;
     }
 
-    public void setTekst(String s)
+    public void setTekst(int x)
     {
-        tekst.setText(s);
+    	 String h = "";
+         String m = "";
+         if(x/60 < 10)h="0";
+         if(x%60 < 10)m ="0";
+         tekst.setText(h + x / 60 + ":" + m + x % 60);        
     }
 
     public void setTekst2(String s)
