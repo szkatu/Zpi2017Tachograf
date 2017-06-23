@@ -1,0 +1,95 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.msi.zpi_interfejs.Strona">
+
+    <!-- TODO: Update blank fragment layout -->
+
+    <com.example.msi.zpi_interfejs.ProgressIndicator
+        android:id="@+id/progress_indicator"
+        android:layout_centerHorizontal="true"
+        android:layout_width="180dp"
+        android:layout_height="180dp" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Pozostało"
+        android:textStyle="bold"
+        android:textSize="27sp"
+        android:layout_marginBottom="34dp"
+        android:layout_alignBottom="@+id/textView3"
+        android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="0:00"
+        android:textStyle="bold"
+        android:textSize="27sp"
+        android:layout_marginBottom="54dp"
+        android:layout_alignBottom="@+id/progress_indicator"
+        android:layout_centerHorizontal="true" />
+
+    <ListView
+        android:id="@+id/listview2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/progress_indicator"
+        android:paddingTop="10dp"/>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        >
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:onClick="czynnosc"
+            android:id="@+id/jazda"
+            android:layout_weight="1"
+            android:layout_gravity="bottom"
+            android:src="@drawable/jazda"/>
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:onClick="czynnosc"
+            android:id="@+id/przerwa"
+            android:layout_weight="1"
+            android:layout_gravity="bottom"
+            android:src="@drawable/przerwa"/>
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:onClick="czynnosc"
+            android:id="@+id/odpoczynek"
+            android:layout_weight="1"
+            android:layout_gravity="bottom"
+            android:src="@drawable/odpoczynek"/>
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:onClick="czynnosc"
+            android:id="@+id/innaPraca"
+            android:layout_weight="1"
+            android:layout_gravity="bottom"
+            android:src="@drawable/innapraca"/>
+
+
+    </LinearLayout>
+
+</RelativeLayout>
