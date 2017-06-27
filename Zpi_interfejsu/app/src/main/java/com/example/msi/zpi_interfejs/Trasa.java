@@ -3,9 +3,11 @@ package com.example.msi.zpi_interfejs;
 import android.Manifest;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.BitmapFactory;
@@ -27,6 +29,7 @@ import android.text.format.DateUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.RemoteViews;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.model.Marker;
@@ -44,6 +47,7 @@ public class Trasa extends AppCompatActivity implements ActivityCompat.OnRequest
     private ViewPager viewPager;
 
     private Thread t;
+    private static int state;
 
     private CustomLocationProvider provider;
 
@@ -57,7 +61,7 @@ public class Trasa extends AppCompatActivity implements ActivityCompat.OnRequest
     private Handler timerHandler = new Handler();
     private NotificationCompat.Builder mBuilder;
     private NotificationManager nMgr;
-
+    private static RemoteViews remoteV;
     private SharedPreferences sP;
     private FileOutputStream fOs;
     Calendar calendar;
@@ -68,6 +72,45 @@ public class Trasa extends AppCompatActivity implements ActivityCompat.OnRequest
             R.mipmap.ic_local_parking_white_24dp,
             R.mipmap.ic_map_white_24dp
     };
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+       // czynnosc2(tachoGraf.kierowca.stan,true);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Log.i("LIFECYCLE","ONDestroy");
+        this.unregisterReceiver(this.ButtonListener);
+        nMgr.cancel(1);
+    }
+
+    private BroadcastReceiver ButtonListener = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            Trasa.this.updateUi(intent);
+        }
+    };
+
+    private void updateUi(Intent i)
+    {
+        switch(i.getAction())
+        {
+            case "10clicked":
+                czynnosc2(1,false);
+                break;
+            case "11clicked":
+                czynnosc2(2,false);
+                break;
+            case "12clicked":
+                czynnosc2(3,false);
+                break;
+            default:
+                break;
+        }
+    }
 
     Runnable placesUpdate = new Runnable() {
         @Override
@@ -93,7 +136,8 @@ public class Trasa extends AppCompatActivity implements ActivityCompat.OnRequest
                     if(mainFragment != null && tachoGraf != null && tachoGraf.kierowca != null) {
                         tachoGraf.kierowcaMove(mainFragment);
                         writePref();
-                        mBuilder = tachoGraf.mBuilder;
+                       // mBuilder = tachoGraf.mBuilder;
+                        mBuilder.setCustomBigContentView(remoteV);
                         PendingIntent intent = PendingIntent.getActivity(getApplicationContext(), 0, new Intent(Trasa.this, Trasa.class).setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP), PendingIntent.FLAG_UPDATE_CURRENT);
                         mBuilder.setContentIntent(intent);
                         nMgr.notify(1, mBuilder.build());
@@ -104,6 +148,46 @@ public class Trasa extends AppCompatActivity implements ActivityCompat.OnRequest
 
 
     };
+
+
+
+    public static void setNotification(String nazwa, int max, int val, int id)
+    {
+        remoteV.setTextViewText(R.id.textView,nazwa);
+        remoteV.setProgressBar(R.id.progressBar4,max,val,false);
+
+        switch(id)
+        {
+            case 1:
+                remoteV.setImageViewResource(R.id.imageView,R.drawable.jazda);
+                remoteV.setImageViewResource(R.id.button10,R.drawable.przerwa);
+                remoteV.setImageViewResource(R.id.button11,R.drawable.odpoczynek);
+                remoteV.setImageViewResource(R.id.button12,R.drawable.innapraca);
+                state = 1;
+                break;
+            case 2:
+                remoteV.setImageViewResource(R.id.imageView,R.drawable.przerwa);
+                remoteV.setImageViewResource(R.id.button10,R.drawable.jazda);
+                remoteV.setImageViewResource(R.id.button11,R.drawable.odpoczynek);
+                remoteV.setImageViewResource(R.id.button12,R.drawable.innapraca);
+                state = 2;
+                break;
+            case 3:
+                remoteV.setImageViewResource(R.id.imageView,R.drawable.odpoczynek);
+                remoteV.setImageViewResource(R.id.button10,R.drawable.jazda);
+                remoteV.setImageViewResource(R.id.button11,R.drawable.przerwa);
+                remoteV.setImageViewResource(R.id.button12,R.drawable.innapraca);
+                state = 3;
+                break;
+            case 4:
+                remoteV.setImageViewResource(R.id.imageView,R.drawable.innapraca);
+                remoteV.setImageViewResource(R.id.button11,R.drawable.przerwa);
+                remoteV.setImageViewResource(R.id.button12,R.drawable.odpoczynek);
+                remoteV.setImageViewResource(R.id.button10,R.drawable.jazda);
+                state = 4;
+                break;
+        }
+    }
 
     public void czynnosc(View v)
     {
@@ -153,9 +237,11 @@ public class Trasa extends AppCompatActivity implements ActivityCompat.OnRequest
         {
             case R.id.jazda:
                 tachoGraf.jazda(mainFragment);
-                mainFragment.p.setVisibility(View.VISIBLE);
-                mainFragment.o.setVisibility(View.VISIBLE);
-                mainFragment.ip.setVisibility(View.VISIBLE);
+                if(tachoGraf.kierowca.stan == 1) {
+                    mainFragment.p.setVisibility(View.VISIBLE);
+                    mainFragment.o.setVisibility(View.VISIBLE);
+                    mainFragment.ip.setVisibility(View.VISIBLE);
+                }
                 break;
             case R.id.przerwa:
                 tachoGraf.przerwa(mainFragment);
@@ -178,7 +264,99 @@ public class Trasa extends AppCompatActivity implements ActivityCompat.OnRequest
         }
         v.setVisibility(View.INVISIBLE);
 
-        mBuilder = tachoGraf.mBuilder;
+       // mBuilder = tachoGraf.mBuilder;
+        mBuilder.setCustomBigContentView(remoteV);
+        PendingIntent intent = PendingIntent.getActivity(getApplicationContext(),0,new Intent(Trasa.this,Trasa.class).setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP),PendingIntent.FLAG_UPDATE_CURRENT);
+        mBuilder.setContentIntent(intent);
+        nMgr.notify(1,mBuilder.build());
+    }
+
+    public void czynnosc2(int v, boolean tf)
+    {
+        if(!tf) {
+            if (v >= state) v++;
+            calendar = Calendar.getInstance();
+            calendar.getTimeZone();
+            if (tachoGraf.kierowca.stan == 0) {
+                start = calendar.getTimeInMillis();
+                SharedPreferences.Editor edit = sP.edit();
+                edit.putLong("start", start);
+                edit.apply();
+            } else {
+                SimpleDateFormat formatter = new SimpleDateFormat("yyyy.MM.dd HH:mm z");
+
+                start = sP.getLong("start", 0L);
+                long godzina = calendar.getTimeInMillis();
+                int diff = (int) (godzina - start);
+                // diff = diff / DateUtils.SECOND_IN_MILLIS;
+
+                String czas = diff / (1000 * 60 * 60) + ":" + ((diff / (1000 * 60)) % 60);
+                //start = start / DateUtils.SECOND_IN_MILLIS;
+                String s = formatter.format(start);
+                // godzina = godzina / DateUtils.SECOND_IN_MILLIS;
+                String k = formatter.format(godzina);
+                String x = "";
+                x += tachoGraf.kierowca.stan + "|";
+                x += s + "|";
+                x += k + "|";
+                x += czas + "#";
+                Log.i("LIFECYCLE", x);
+                start = calendar.getTimeInMillis();
+                SharedPreferences.Editor edit = sP.edit();
+                edit.putLong("start", start);
+                edit.apply();
+
+
+                try {
+                    fOs = openFileOutput("historia", Context.MODE_APPEND);
+                    fOs.write(x.getBytes());
+                    fOs.close();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        else
+            {
+                if(v == 5)v = 3;
+            }
+        switch(v)
+        {
+            case 1:
+                tachoGraf.jazda(mainFragment);
+                if(tachoGraf.kierowca.stan == 1) {
+                    mainFragment.p.setVisibility(View.VISIBLE);
+                    mainFragment.o.setVisibility(View.VISIBLE);
+                    mainFragment.ip.setVisibility(View.VISIBLE);
+                    mainFragment.j.setVisibility(View.INVISIBLE);
+                }
+                break;
+            case 2:
+                tachoGraf.przerwa(mainFragment);
+                mainFragment.j.setVisibility(View.VISIBLE);
+                mainFragment.o.setVisibility(View.VISIBLE);
+                mainFragment.ip.setVisibility(View.VISIBLE);
+                mainFragment.p.setVisibility(View.INVISIBLE);
+                break;
+            case 3:
+                tachoGraf.odpoczynek(mainFragment);
+                mainFragment.j.setVisibility(View.VISIBLE);
+                mainFragment.p.setVisibility(View.VISIBLE);
+                mainFragment.ip.setVisibility(View.VISIBLE);
+                mainFragment.o.setVisibility(View.INVISIBLE);
+                break;
+            case 4:
+                tachoGraf.innaPraca(mainFragment);
+                mainFragment.j.setVisibility(View.VISIBLE);
+                mainFragment.p.setVisibility(View.VISIBLE);
+                mainFragment.o.setVisibility(View.VISIBLE);
+                mainFragment.ip.setVisibility(View.INVISIBLE);
+                break;
+        }
+
+
+        // mBuilder = tachoGraf.mBuilder;
+        mBuilder.setCustomBigContentView(remoteV);
         PendingIntent intent = PendingIntent.getActivity(getApplicationContext(),0,new Intent(Trasa.this,Trasa.class).setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP),PendingIntent.FLAG_UPDATE_CURRENT);
         mBuilder.setContentIntent(intent);
         nMgr.notify(1,mBuilder.build());
@@ -200,6 +378,8 @@ public class Trasa extends AppCompatActivity implements ActivityCompat.OnRequest
         edit.putLong("time",calendar.getInstance().getTimeInMillis());
         edit.apply();
     }
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -228,11 +408,31 @@ public class Trasa extends AppCompatActivity implements ActivityCompat.OnRequest
 
         nMgr = (NotificationManager)getSystemService(NOTIFICATION_SERVICE);
 
+        remoteV = new RemoteViews(getPackageName(),R.layout.notification_layout);
+        remoteV.setImageViewResource(R.id.button11,R.drawable.jazda);
+        remoteV.setImageViewResource(R.id.button12,R.drawable.przerwa);
+        remoteV.setImageViewResource(R.id.button10,R.drawable.odpoczynek);
+
+        Intent button10_i = new Intent("10clicked");
+        Intent button11_i = new Intent("11clicked");
+        Intent button12_i = new Intent("12clicked");
+
+        remoteV.setOnClickPendingIntent(R.id.button10,PendingIntent.getBroadcast(this,10,button10_i,0));
+        remoteV.setOnClickPendingIntent(R.id.button11,PendingIntent.getBroadcast(this,11,button11_i,0));
+        remoteV.setOnClickPendingIntent(R.id.button12,PendingIntent.getBroadcast(this,12,button12_i,0));
+
+        IntentFilter iif = new IntentFilter();
+        iif.addAction("10clicked");
+        iif.addAction("11clicked");
+        iif.addAction("12clicked");
+        this.registerReceiver(this.ButtonListener,iif);
+
+
         mBuilder = new NotificationCompat.Builder(this)
                 .setSmallIcon(R.drawable.truck)
                 .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.drawable.truck))
                 .setContentTitle("Wojażer")
-                .setContentText("");
+                .setCustomBigContentView(remoteV);
 
         sP = getApplicationContext().getSharedPreferences("czasy", Context.MODE_PRIVATE);
 
@@ -262,6 +462,8 @@ public class Trasa extends AppCompatActivity implements ActivityCompat.OnRequest
 
 
 
+
+
     private void setupTabIcons() {
         tabLayout.getTabAt(0).setIcon(tabIcons[0]);
         tabLayout.getTabAt(1).setIcon(tabIcons[1]);
@@ -281,10 +483,13 @@ public class Trasa extends AppCompatActivity implements ActivityCompat.OnRequest
         adapter.addFragment(mapFragment, "Mapa");
         viewPager.setAdapter(adapter);
 
+
+
         Thread tachoThread = new Thread(tachoTimer);
         tachoThread.start();
         //Prevent from destroying/reloading fragments
         viewPager.setOffscreenPageLimit(4);
+
     }
 
     class ViewPagerAdapter extends FragmentPagerAdapter {
